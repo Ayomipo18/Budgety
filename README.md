@@ -1,0 +1,1 @@
+**Budgety** is a webapp that calculates the budget from the incomes and expenses for a certain month
