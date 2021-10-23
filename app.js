@@ -56,7 +56,12 @@ var budgetController = (function() {
     return {
         addItem: function(type, des, val) {
             var newItem, ID;
-            
+            const budget = this.getBudget();
+            // console.log(budget)
+            if(type === 'exp' && budget.budget < val) {
+                alert('Your current budget cannot cover that expense.');
+                return false;
+            }
             //[1 2 3 4 5], next ID = 6
             //[1 2 4 6 8], next ID = 9
             // ID = last ID + 1
@@ -363,7 +368,7 @@ var controller = (function(budgetCtrl, UICtrl) {
         document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
 
         document.addEventListener('keypress', function(event) {
-            if (event.keyCode === 13 || event.which === 13) {
+            if (event.code === 'Enter' || event.key === 'Enter') {
                 ctrlAddItem();
             }
         });
@@ -410,6 +415,7 @@ var controller = (function(budgetCtrl, UICtrl) {
             // 2. Add the item to the budget controller
             newItem = budgetCtrl.addItem(input.type, input.description, input.value);
 
+            if(!newItem) return;
             // 3. Add the item to the UI
             UICtrl.addListItem(newItem, input.type);
 
